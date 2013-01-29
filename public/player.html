@@ -1,0 +1,81 @@
+<!doctype html>
+<html>
+<head>
+
+<title>Juke</title>
+
+<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+<link rel="stylesheet" href="/stylesheets/lib/ratchet.css">
+<link rel="stylesheet" href="/stylesheets/lib/font-awesome.css">
+
+<link rel="stylesheet" href="/stylesheets/style.css">
+
+<!-- Song Template -->
+<script id="songs-template" type="text/x-handlebars-template">
+  <li class="list-divider">Queue</li>
+  {{#each .}}
+    <li>
+      <div class="song-info">
+        <h3>{{title}}</h3>
+        <em>{{artist}}</em>
+      </div> 
+    </li>
+  {{/each}}
+</script>
+
+<!-- Now Playing Tempalte -->
+<script id="playing-template" type="text/x-handlebars-template">
+  <h2><i class="icon-play"></i> {{title}}</h2>
+  <em>{{artist}}</em> 
+</script>
+
+</head>
+<body>
+  <!-- <iframe src="//grooveshark.com/" id="gs"></iframe> -->
+
+  <div class="content">
+    <div id="player"></div>
+
+    <ul class="list" id="song-playing">
+      <li>
+        <div id="progress"></div>
+        <div id="song-playing-data">
+          <h2><i class="icon-pause"></i> No music playing</h2>
+        </div>
+      </li>
+    </ul>
+
+    <ul class="list" id="song-list"></ul>
+  </div>
+
+<script>
+function hideAddressBar()
+{
+  if(!window.location.hash)
+  {
+      if(document.height < window.outerHeight)
+      {
+          document.body.style.height = (window.outerHeight + 50) + 'px';
+      }
+ 
+      setTimeout( function(){ window.scrollTo(0, 1); }, 50 );
+  }
+}
+ 
+window.addEventListener("load", function(){ if(!window.pageYOffset){ hideAddressBar(); } } );
+window.addEventListener("orientationchange", hideAddressBar );
+</script>
+<script src="/javascripts/lib/lodash.min.js"></script>
+<script src="/javascripts/lib/retina.js"></script>
+<script src="/javascripts/lib/zepto.min.js"></script>
+<script src="/javascripts/lib/ratchet.js"></script>
+<script src="/javascripts/lib/handlebars.js"></script>
+<script src="/javascripts/lib/swfobject.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/javascripts/player.js"></script>
+
+</body>
+</html>

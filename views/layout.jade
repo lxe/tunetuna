@@ -1,7 +1,75 @@
-doctype 5
+!!! 5
 html
   head
-    title= title
+    meta(charset='utf-8')
+    title Juke
+
+    meta(name='viewport', content='initial-scale=1, maximum-scale=1, user-scalable=no')
+    meta(name='apple-mobile-web-app-capable', content='yes')
+    meta(name='apple-mobile-web-app-status-bar-style', content='black')
+
+    link(rel='apple-touch-icon-precomposed', sizes='114x114', href='/images/touch-icons/apple-touch-icon-114x114.png')
+    link(rel='apple-touch-icon-precomposed', sizes='72x72',   href='/images/touch-icons/apple-touch-icon-72x72.png')
+    link(rel='apple-touch-icon-precomposed', sizes='57x57',   href='/images/touch-icons/apple-touch-icon-57x57.png')
+
+    link(rel='stylesheet', href='/stylesheets/lib/ratchet.css')
+    link(rel='stylesheet', href='/stylesheets/lib/font-awesome.css')
     link(rel='stylesheet', href='/stylesheets/style.css')
-  body
-    block content
+
+    include templates/playing
+    include templates/results
+    include templates/songs
+
+  body    
+    .content
+      if (locals.player)
+        #player
+
+      ul.list#playing
+        li#now-playing
+          h2 
+            i#paused-icon.icon-pause 
+            span#playing-title  No Music Playing
+        li.list-divider
+          #progress
+
+      if (!locals.player)
+        .inset
+          input#search(type='search', placeholder='search')
+          a#clear-search(href='#')
+            i.icon-remove-sign
+        #underlay
+        #loading
+          i.icon-spinner.icon-spin.icon-2x
+        ul#results.list
+
+      ul.list#queue
+        li.list-divider No songs in queue
+  
+    block scripts
+    script(src='/javascripts/lib/ratchet.js')
+    script(src='/javascripts/lib/zepto.min.js')
+    script(src='/javascripts/lib/handlebars.js')
+    script(src='/javascripts/lib/lodash.min.js')
+    script(src='/socket.io/socket.io.js')
+
+    script
+      var templates = {
+        songs   : Handlebars.compile($('#songs-template').html()),
+        playing : Handlebars.compile($('#playing-template').html()),
+        results : Handlebars.compile($('#results-template').html()),
+      }
+
+      Handlebars.registerHelper('JSON', function(object) {
+        return new Handlebars.SafeString(encodeURIComponent(JSON.stringify(object)));
+      });
+
+      var socket = io.connect('http://' + window.location.host);
+
+    script(src='/javascripts/app.js')
+    if (locals.player)
+      script(src='/javascripts/lib/swfobject.js')
+      script(src='/javascripts/player.js')
+    else
+      script(src='/javascripts/search.js')
+

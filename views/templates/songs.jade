@@ -1,0 +1,15 @@
+script#songs-template(type='text/x-handlebars-template')
+  li.list-divider Queue
+  {{#each .}}
+  li
+    .song-info
+      h3 {{title}}
+      em {{artist}}
+    if !locals.player
+      .group
+        a.action.button-negative(href='#down/{{id}}')
+          i.icon-thumbs-down  
+        | &nbsp;
+        a.action.button-positive(href='#up/{{id}}')
+          i.icon-thumbs-up   
+  {{/each}}

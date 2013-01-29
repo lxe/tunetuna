@@ -1,0 +1,10 @@
+script#results-template(type='text/x-handlebars-template')
+  {{#each .}}
+  li
+    .song-info
+        h3 {{title}}
+        em {{artist}}
+    .group
+      a.action.button-positive(href='#add/{{{JSON . }}}')
+        i.icon-plus-sign
+  {{/each}}
