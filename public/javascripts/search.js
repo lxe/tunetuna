@@ -38,7 +38,7 @@ var search_providers = {
     function(data, status, xhr) {
 
       _.each(JSON.parse(data).reverse(), function(s) {
-        results.unshift({
+        results.push({
           title  : s.SongName,
           artist : s.ArtistName,
           id     : s.SongID,
