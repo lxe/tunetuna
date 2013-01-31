@@ -69,9 +69,8 @@ module.exports = exports = function(io, app) {
 
   app.get('/:session', function(req, res, next) {
     var session = req.param('session');
-    console.log(session)
-
     res.render('client', {
+      
       session : session
     })
   })

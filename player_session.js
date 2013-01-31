@@ -34,7 +34,6 @@ module.exports = exports = function(io, app, client, name) {
         return callback(err)
       }
 
-
       var songs = _.sortBy(results.songs, function(song) {
         var song_full_name = [song.SongName, song.ArtistName].join(' ')
           , words = _.compact(song_full_name.split(/[^\w]/))
@@ -46,7 +45,6 @@ module.exports = exports = function(io, app, client, name) {
 
         _.each(bad_words, function(word) {
           if (!word.test(q) && word.test(song_full_name)) {
-            console.log('Bad word encountered: ' + word)
             weight -= 5;
           }
         })
@@ -54,8 +52,6 @@ module.exports = exports = function(io, app, client, name) {
         song.weight = weight;
         return weight;
       })
-
-      console.log(JSON.stringify(songs, false, '  '));
 
       var s = songs.pop()
       callback(null, {
@@ -66,10 +62,10 @@ module.exports = exports = function(io, app, client, name) {
     })
   }
 
-  var songs  = [ ]
+  var songs          = [ ]
     , playing
-    , played = [ ]
-    , clients = { }
+    , played         = [ ]
+    , clients        = { }
     , seconds_played = 0
     , seconds_total  = 0
     , duration_update
@@ -162,6 +158,15 @@ module.exports = exports = function(io, app, client, name) {
 
     socket.on('add', function(song) { 
       function finish(song) {
+        if ((playing && playing.id == song.id) 
+          || songs.filter(function(s) {
+          s.id == song.id;
+        }).length) {
+          return socket.emit('error', {
+            message: 'Song already added to the queue.'
+          })
+        }
+
         songs.push(song);
         
         if (!playing) return play_next()
@@ -169,7 +174,6 @@ module.exports = exports = function(io, app, client, name) {
       }
 
       if (/youtube/i.test(song.artist)) {
-        console.log('Getting youtube result ' + song.title)
         return process_youtube(song.title, function(err, song) {
           if (err) return socket.emit('error', err);
           finish(song);
@@ -180,7 +184,6 @@ module.exports = exports = function(io, app, client, name) {
     })
 
     socket.on('player_init', function() {
-      console.log('*** Player Initialized')
       play_next()
     })
   });
