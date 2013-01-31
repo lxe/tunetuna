@@ -170,6 +170,8 @@ module.exports = exports = function(io, app, client, name) {
     })
 
     socket.on('add', function(song) { 
+      console.log('Got request to add song: ', song)
+
       function finish(song) {
         if ((playing && playing.id == song.id) 
           || songs.filter(function(sng) {
@@ -187,8 +189,12 @@ module.exports = exports = function(io, app, client, name) {
       }
 
       if (/youtube/i.test(song.artist)) {
+        console.log('processing youtube...');
         return process_youtube(song.title, function(err, song) {
-          if (err) return socket.emit('error', err);
+          if (err) {
+            console.log(err);
+            return socket.emit('error', err);
+          }
           finish(song);
         })
       } else {
