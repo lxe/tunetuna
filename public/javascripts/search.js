@@ -47,7 +47,7 @@ var search_providers = {
 }
 
 $search.on('keyup', function(event) {
-  if (e.which == 13) {
+  if (event.which == 13) {
     $search.blur();
     return;
   }

@@ -38,9 +38,6 @@ socket.on('playing', function(playing_data) {
 });
 
 socket.on('songs', function (songs) {
-  console.log(songs)
-  console.log(templates.songs(songs))
-  console.log($queue)
   $queue.html(templates.songs(songs));
   apply_actions();
 });
