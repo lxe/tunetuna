@@ -47,6 +47,11 @@ var search_providers = {
 }
 
 $search.on('keyup', function(event) {
+  if (e.which == 13) {
+    $search.blur();
+    return;
+  }
+
   clearTimeout(keyTimer)
   if (!checkValue()) return;
 
@@ -61,8 +66,8 @@ $search.on('keyup', function(event) {
 
       apply_actions()
       $results.find('a')
-        .tap(clear_search)
-        .click(clear_search)
+        .tap(post_add_reset)
+        .click(post_add_reset)
     }
 
     var val = $search.val();
@@ -89,12 +94,20 @@ function checkValue() {
   return true;
 }
 
+function post_add_reset() {
+  $results.hide()
+  $hide_element.show()
+  $search.val('');
+}
+
 /**
  * [clear_search description]
  * @param  {[type]} event [description]
  * @return {[type]}       [description]
  */
 function clear_search(event) {
+  event.preventDefault();
+  event.stopPropagation();
   $results.hide()
   $hide_element.show()
   $search.val('');
