@@ -65,7 +65,9 @@ html
         return new Handlebars.SafeString(encodeURIComponent(JSON.stringify(object)));
       });
 
-      var socket = io.connect('http://' + window.location.host + '/#{session}');
+      var socket = io.connect('http://' + window.location.host + '/#{session}', {
+        port : 8088
+      });
 
     script(src='/javascripts/app.js')
     if (locals.player)
