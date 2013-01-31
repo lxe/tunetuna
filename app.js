@@ -13,6 +13,11 @@ var app    = express();
 var server = app.listen(port);
 var io     = require('socket.io').listen(server, { log : false });
 
+io.configure(function() {
+  io.enable('browser client etag');
+  io.set('transports', ['websocket', 'xhr-polling']);
+});
+
 app.configure(function(){
   app.set('port', port);
   app.set('views', __dirname + '/views');
