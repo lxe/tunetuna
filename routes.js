@@ -19,29 +19,5 @@ module.exports = exports = function(app) {
     })
   })
 
-  /**
-   * [ description]
-   * @param  {[type]} req   [description]
-   * @param  {[type]} res   [description]
-   * @param  {[type]} next) { }         [description]
-   * @return {[type]}       [description]
-   */
-  app.get('/', function(req, res, next) {
-    res.render('client')
-  })
-
-  /**
-   * [ description]
-   * @param  {[type]} req   [description]
-   * @param  {[type]} res   [description]
-   * @param  {[type]} next) { }         [description]
-   * @return {[type]}       [description]
-   */
-  app.get('/player', function(req, res, next) {
-    res.render('player', {
-      player: true
-    })
-  })
-
 
 }

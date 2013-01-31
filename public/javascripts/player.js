@@ -1,3 +1,5 @@
+socket.emit('player_init')
+
 socket.on('playing', function(playing_data) {
   loadPlayer(playing_data.song.id)
 });

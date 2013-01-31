@@ -44,6 +44,7 @@ html
         ul#results.list
 
       ul.list#queue
+        li.list-divider #{session}
         li.list-divider No songs in queue
   
     block scripts
@@ -64,7 +65,7 @@ html
         return new Handlebars.SafeString(encodeURIComponent(JSON.stringify(object)));
       });
 
-      var socket = io.connect('http://' + window.location.host);
+      var socket = io.connect('http://' + window.location.host + '/#{session}');
 
     script(src='/javascripts/app.js')
     if (locals.player)
