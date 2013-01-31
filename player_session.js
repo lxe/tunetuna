@@ -116,7 +116,7 @@ module.exports = exports = function(io, app, client, name) {
   }
 
   function update_songs(socket) {
-    console.log(songs)
+    // console.log(songs)
     if (socket) socket.emit('songs', songs)
     else s.emit('songs', songs)
   }
@@ -154,7 +154,7 @@ module.exports = exports = function(io, app, client, name) {
       var song_position = get_song_position(songs, id)
       songs.move(song_position, Math.round(song_position / 3));
 
-      console.log(songs)
+      // console.log(songs)
       update_songs()
     })
 
@@ -165,7 +165,7 @@ module.exports = exports = function(io, app, client, name) {
       var song_position = get_song_position(songs, id)
       songs.move(song_position, Math.round((songs.length - song_position) / 3));
 
-      console.log(songs)
+      // console.log(songs)
       update_songs()    
     })
 
@@ -173,6 +173,12 @@ module.exports = exports = function(io, app, client, name) {
       console.log('Got request to add song: ', song)
 
       function finish(song) {
+        if (!song) {
+          return socket.emit('error', {
+            message: 'Sorry, I could not find this song :('
+          });
+        }
+        
         if ((playing && playing.id == song.id) 
           || songs.filter(function(sng) {
           sng.id == song.id;

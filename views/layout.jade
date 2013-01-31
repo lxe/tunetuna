@@ -56,40 +56,37 @@ html
           li.list-divider No songs in queue
     else
       .container
-        .row
-          .span8#header 
-            | join this party at  
-            strong
-              span#host
-              | /#{session}
-         
-          if (locals.player)
-            .span4
-              #player
+
+        if (locals.player)
+          #player
 
         .row
-          .span10
+          .span12
+            #header 
+              | join this party at  
+              strong
+                span#host
+                | /#{session}
+
+        .row
+          .span8
             .hero-unit
               .inner#now-playing
                 h2 
                   i#paused-icon.icon-pause 
                   span#playing-title  No Music Playing
               #progress
+            input#search(type='text', placeholder='search').input-block-level
+            ul#results
             .row-fluid
-              .span6
-                input#search(type='text', placeholder='search').input-block-level
-                ul#results
-              .span6
-                ul#queue
-                  li.list-divider No songs in queue
-          .span2
-            img#code(src='')
-
-          #nothing
-            
-      
+              .span4
+                img#code(src='')
+         
+          .span4
+            ul#queue
+              li.list-divider No songs in queue     
+    
     block scripts
-
 
     script(src='/javascripts/lib/zepto.min.js')
     script(src='/javascripts/lib/handlebars.js')
@@ -124,7 +121,7 @@ html
         var $hide_element = $('#queue')
     else
       script
-        var $hide_element = $('#nothing')
+        var $hide_element = $('#code')
 
     script(src='/javascripts/app.js')
     script(src='/javascripts/search.js')
