@@ -65,9 +65,6 @@ $search.on('keyup', function(event) {
       $hide_element.hide()
 
       apply_actions()
-      $results.find('a')
-        .tap(post_add_reset)
-        .click(post_add_reset)
     }
 
     var val = $search.val();
@@ -94,12 +91,6 @@ function checkValue() {
   return true;
 }
 
-function post_add_reset() {
-  $results.hide()
-  $hide_element.show()
-  $search.val('');
-}
-
 /**
  * [clear_search description]
  * @param  {[type]} event [description]
@@ -122,6 +113,10 @@ function apply_actions() {
     var href   = $(this).attr('href').slice(1).split('/')
       , action = href.shift()
       , data   = JSON.parse(decodeURIComponent(href[0]))
+
+    $results.hide()
+    $hide_element.show()
+    $search.val('');
       
     socket.emit(action, data)
   })

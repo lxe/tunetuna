@@ -56,6 +56,7 @@ module.exports = exports = function(io, app, client, name) {
       })
 
       var s = songs.pop()
+      console.log('Picked Song', s)
       callback(null, {
         title  : s.SongName,
         artist : s.ArtistName,
@@ -73,8 +74,9 @@ module.exports = exports = function(io, app, client, name) {
     , duration_update
 
   function play_next() {
+
     if (!songs.length) {
-      seconds_total = 0
+      seconds_total =  0;
       seconds_played = 0;
 
       playing = undefined;
@@ -170,8 +172,8 @@ module.exports = exports = function(io, app, client, name) {
     socket.on('add', function(song) { 
       function finish(song) {
         if ((playing && playing.id == song.id) 
-          || songs.filter(function(s) {
-          s.id == song.id;
+          || songs.filter(function(sng) {
+          sng.id == song.id;
         }).length) {
           return socket.emit('error', {
             message: 'Song already added to the queue.'

@@ -67,21 +67,26 @@ html
             .span4
               #player
 
-        .hero-unit
-          .inner#now-playing
-            h2 
-              i#paused-icon.icon-pause 
-              span#playing-title  No Music Playing
-          #progress
-
         .row
-          .span6
-            input#search(type='text', placeholder='search').input-block-level
-            ul#results
+          .span10
+            .hero-unit
+              .inner#now-playing
+                h2 
+                  i#paused-icon.icon-pause 
+                  span#playing-title  No Music Playing
+              #progress
+            .row-fluid
+              .span6
+                input#search(type='text', placeholder='search').input-block-level
+                ul#results
+              .span6
+                ul#queue
+                  li.list-divider No songs in queue
+          .span2
             img#code(src='')
-          .span6
-            ul#queue
-              li.list-divider No songs in queue
+
+          #nothing
+            
       
     block scripts
 
@@ -119,7 +124,7 @@ html
         var $hide_element = $('#queue')
     else
       script
-        var $hide_element = $('#code')
+        var $hide_element = $('#nothing')
 
     script(src='/javascripts/app.js')
     script(src='/javascripts/search.js')
