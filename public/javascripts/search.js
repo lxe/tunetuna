@@ -95,8 +95,6 @@ function checkValue() {
  * @return {[type]}       [description]
  */
 function clear_search(event) {
-  event.preventDefault();
-  event.stopPropagation();
   $results.hide()
   $hide_element.show()
   $search.val('');
