@@ -7,7 +7,7 @@ var $queue      = $('#queue'),
 
 function update_progress() {
   $progress.css({ 
-    left : '-' + ((1 - (seconds_played / seconds_total)) * 100) + '%' 
+    width : ((seconds_played / seconds_total) * 100) + '%' 
   })
 }
 
@@ -38,6 +38,9 @@ socket.on('playing', function(playing_data) {
 });
 
 socket.on('songs', function (songs) {
+  console.log(songs)
+  console.log(templates.songs(songs))
+  console.log($queue)
   $queue.html(templates.songs(songs));
   apply_actions();
 });
@@ -46,17 +49,3 @@ socket.on('error', function(err) {
   if (/array/i.test(Object.prototype.toString.call(err))) err = err.pop();
   alert(err.message)
 });
-
-function apply_actions() {
-  $('.action').click(function(event) {
-    event.preventDefault();
-    event.stopPropagation();
-
-    var href   = $(this).attr('href').slice(1).split('/')
-      , action = href.shift()
-      , data   = JSON.parse(decodeURIComponent(href[0]))
-
-    toggle_overlay(false)
-    socket.emit(action, data)
-  })
-}

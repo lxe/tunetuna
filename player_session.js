@@ -23,6 +23,8 @@ var bad_words = _.map(['cover', 'live', 'parody', 'remix', 'rmx'], function(w) {
   
 module.exports = exports = function(io, app, client, name) {
 
+  console.log('Initialized player ' + name)
+
   function process_youtube(q, callback) {
     client.request('getSongSearchResults', {
       country : client.gsCountry,
@@ -71,9 +73,17 @@ module.exports = exports = function(io, app, client, name) {
     , duration_update
 
   function play_next() {
-    if (!songs.length) return;
-    playing = songs.shift()
+    if (!songs.length) {
+      seconds_total = 0
+      seconds_played = 0;
 
+      playing = undefined;
+      update_playing(s, true)
+      update_songs(s, true)
+      return;
+    }
+
+    playing = songs.shift()
     client.request('getStreamKeyStreamServer', {
       songID : playing.id,
       country : client.gsCountry
@@ -104,6 +114,7 @@ module.exports = exports = function(io, app, client, name) {
   }
 
   function update_songs(socket) {
+    console.log(songs)
     if (socket) socket.emit('songs', songs)
     else s.emit('songs', songs)
   }
@@ -119,8 +130,8 @@ module.exports = exports = function(io, app, client, name) {
   }
 
   var s = io.of('/' + name).on('connection', function (socket) {
-    if (songs.length) update_songs(socket)
-    if (playing) update_playing(socket)
+    update_songs(socket)
+    update_playing(socket)
 
     socket.votes = { }
 

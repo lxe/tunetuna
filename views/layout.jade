@@ -11,48 +11,91 @@ html
     link(rel='apple-touch-icon-precomposed', sizes='114x114', href='/images/touch-icons/apple-touch-icon-114x114.png')
     link(rel='apple-touch-icon-precomposed', sizes='72x72',   href='/images/touch-icons/apple-touch-icon-72x72.png')
     link(rel='apple-touch-icon-precomposed', sizes='57x57',   href='/images/touch-icons/apple-touch-icon-57x57.png')
+  
+    if locals.mobile
+      link(rel='stylesheet', href='/stylesheets/lib/ratchet.css')
+      link(rel='stylesheet', href='/stylesheets/mobile.css')
+    else
+      link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700', type='text/css')
+      link(rel='stylesheet', href='/stylesheets/lib/bootstrap.min.css')
+      link(rel='stylesheet', href='/stylesheets/lib/bootstrap-responsive.min.css')
+      link(rel='stylesheet', href='/stylesheets/desktop.css')
 
-    link(rel='stylesheet', href='/stylesheets/lib/ratchet.css')
     link(rel='stylesheet', href='/stylesheets/lib/font-awesome.css')
-    link(rel='stylesheet', href='/stylesheets/style.css')
 
     include templates/playing
     include templates/results
     include templates/songs
 
-  body    
-    .content
-      if (locals.player)
-        #player
+  body
+    if locals.mobile
+      header.bar-title
+        h1.title
+          span#host
+          | /#{session}
 
-      ul.list#playing
-        li#now-playing
-          h2 
-            i#paused-icon.icon-pause 
-            span#playing-title  No Music Playing
-        li.list-divider
-          #progress
+      .content
+        if (locals.player)
+          #player
 
-      if (!locals.player)
+        ul.list#playing
+          li#now-playing
+            h2 
+              i#paused-icon.icon-pause 
+              span#playing-title  No Music Playing
+          li.list-divider
+            #progress
+
         .inset
           input#search(type='search', placeholder='search')
           a#clear-search(href='#')
             i.icon-remove-sign
-        #underlay
-        #loading
-          i.icon-spinner.icon-spin.icon-2x
-        ul#results.list
 
-      ul.list#queue
-        li.list-divider #{session}
-        li.list-divider No songs in queue
-  
+        ul.list#results
+        ul.list#queue
+          li.list-divider No songs in queue
+    else
+      .container
+        .row
+          .span8#header 
+            | join this party at  
+            strong
+              span#host
+              | /#{session}
+         
+          if (locals.player)
+            .span4
+              #player
+
+        .hero-unit
+          .inner#now-playing
+            h2 
+              i#paused-icon.icon-pause 
+              span#playing-title  No Music Playing
+          #progress
+
+        .row
+          .span6
+            input#search(type='text', placeholder='search').input-block-level
+            ul#results
+            img#code(src='')
+          .span6
+            ul#queue
+              li.list-divider No songs in queue
+      
     block scripts
-    script(src='/javascripts/lib/ratchet.js')
+
+
     script(src='/javascripts/lib/zepto.min.js')
     script(src='/javascripts/lib/handlebars.js')
     script(src='/javascripts/lib/lodash.min.js')
     script(src='/socket.io/socket.io.js')
+
+    if locals.mobile
+      script(src='/javascripts/lib/ratchet.js')
+    else 
+      script
+        $('#code').attr('src', 'https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=http://' + window.location.host + '/#{session}')
 
     script
       var templates = {
@@ -66,13 +109,23 @@ html
       });
 
       var socket = io.connect('http://' + window.location.host + '/#{session}', {
-        port : 8088
+        port : #{websocket_port}
       });
 
+      $('#host').text(window.location.host)
+
+    if mobile
+      script
+        var $hide_element = $('#queue')
+    else
+      script
+        var $hide_element = $('#code')
+
     script(src='/javascripts/app.js')
+    script(src='/javascripts/search.js')
+
     if (locals.player)
       script(src='/javascripts/lib/swfobject.js')
       script(src='/javascripts/player.js')
-    else
-      script(src='/javascripts/search.js')
+
 

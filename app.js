@@ -25,6 +25,11 @@ app.configure(function(){
   app.use(express.favicon());
   app.use(express.bodyParser());
   app.use(express.methodOverride());
+  app.use(function(req, res, next) {
+    res.locals.websocket_port = process.env.WEBSOCKET_PORT || 3000
+    res.locals.mobile = /mobile/i.test(req.header('user-agent'))
+    next()
+  })
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
 });
