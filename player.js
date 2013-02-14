@@ -25,7 +25,7 @@ module.exports = exports = function(io, app) {
   });
 
   app.get('/', function(req, res, next) {
-    res.send(404)
+    res.redirect('/player')
   })
 
   app.get('/player', function(req, res) {
