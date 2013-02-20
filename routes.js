@@ -12,7 +12,7 @@ var gs_client  = new gs('collab_aleksey', '45b98aae57815d5fdbae7fcd38276982');
 // Generate the session name
 function session_name() {
   var id = ''
-   ,  possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+   ,  possible = 'abcdefghijklmnopqrstuvwxyz0123456789';
 
   for(var i = 0; i < 3; i++) {
     id += possible.charAt(Math.floor(Math.random() * possible.length));
