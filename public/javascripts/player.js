@@ -1,7 +1,8 @@
 socket.emit('player_init')
 
 socket.on('playing', function(playing_data) {
-  loadPlayer(playing_data.song.id)
+  if (playing_data.song && playing_data.song.id)
+    loadPlayer(playing_data.song.id)
 });
 
 var loadPlayer = function(songId, callback) {

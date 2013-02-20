@@ -1,9 +1,45 @@
-var $queue      = $('#queue'),
-  $song_playing = $('#now-playing'),
-  $progress     = $("#progress"),
-  progress_timer,
-  seconds_played,
-  seconds_total
+var $queue        = $('#queue')
+  , $song_playing = $('#now-playing')
+  , $progress     = $('#progress')
+  , $hide_element = $queue
+  , progress_timer
+  , seconds_played
+  , seconds_total
+  , session_name
+  , websocket_port
+
+var templates = {
+  songs   : Handlebars.compile($('#songs-template').html()),
+  playing : Handlebars.compile($('#playing-template').html()),
+  results : Handlebars.compile($('#results-template').html()),
+}
+
+Handlebars.registerHelper('JSON', function(object) {
+  return new Handlebars.SafeString(encodeURIComponent(JSON.stringify(object)));
+});
+
+function resetSongPlaying() {
+  $song_playing.html(templates.playing({ 
+    title : 'No Music Playing', 
+    icon  : 'pause',
+    nothing : 'nothing'
+  }));
+
+  start_progress({
+    seconds_played : 0,
+    seconds_total  : 0
+  })
+}
+
+resetSongPlaying()
+
+var socket = io.connect('http://' + window.location.host + '/' + session_name, {
+  port : websocket_port
+});
+
+$('#host').text(window.location.host)
+$('#code').attr('src', 'https://chart.googleapis.com/chart?chs=500x500&cht=qr'
+  + '&chl=http://' + window.location.host + '/' + session_name)
 
 function update_progress() {
   $progress.css({ 
@@ -31,10 +67,16 @@ socket.on('progress', function(played) {
 
 socket.on('playing', function(playing_data) {
   var song = playing_data.song;
-  $song_playing.html(song 
-    ? templates.playing(song)
-    : '<h2><i class="icon-pause"></i> No music playing</h2>');
-  start_progress(playing_data)
+  if (song) {
+    $song_playing.html(templates.playing({
+      title  : song.title,
+      artist : song.artist,
+      icon   : 'play'
+    }))
+  }
+  else {
+    resetSongPlaying()
+  }
 });
 
 socket.on('songs', function (songs) {
@@ -44,5 +86,6 @@ socket.on('songs', function (songs) {
 
 socket.on('error', function(err) {
   if (/array/i.test(Object.prototype.toString.call(err))) err = err.pop();
-  alert(err.message)
+  alert(err.message);
+  $('#loading').remove();
 });

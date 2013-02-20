@@ -1,14 +1,13 @@
 script#songs-template(type='text/x-handlebars-template')
-  li.list-divider Queue
   {{#each .}}
   li.clearfix
-    .song-info.clearfix
-      h3 {{title}}
-      em {{artist}}
-    .group.btn-group.pull-right
+    .group
       a.action.btn.btn-failure.button-negative(href='#down/{{id}}')
         i.icon-thumbs-down  
       | &nbsp;
       a.action.btn.btn-success.button-positive(href='#up/{{id}}')
         i.icon-thumbs-up   
+    .song-info.clearfix
+      h3 {{title}}
+      em {{artist}}
   {{/each}}

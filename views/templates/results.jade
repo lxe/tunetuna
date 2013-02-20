@@ -1,10 +1,10 @@
 script#results-template(type='text/x-handlebars-template')
   {{#each .}}
   li.clearfix
-    .song-info.clearfix
-      h3 {{title}}
-      em {{artist}}
     .group
       a.action.btn.btn-primary.pull-right.button-positive(href='#add/{{{JSON . }}}')
         i.icon-plus-sign
+    .song-info.clearfix
+      h3 {{title}}
+      em {{artist}}
   {{/each}}

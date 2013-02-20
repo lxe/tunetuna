@@ -2,7 +2,7 @@
 html
   head
     meta(charset='utf-8')
-    title Juke
+    title TuneTuna
 
     meta(name='viewport', content='initial-scale=1, maximum-scale=1, user-scalable=no')
     meta(name='apple-mobile-web-app-capable', content='yes')
@@ -12,14 +12,15 @@ html
     link(rel='apple-touch-icon-precomposed', sizes='72x72',   href='/images/touch-icons/apple-touch-icon-72x72.png')
     link(rel='apple-touch-icon-precomposed', sizes='57x57',   href='/images/touch-icons/apple-touch-icon-57x57.png')
   
-    if locals.mobile
-      link(rel='stylesheet', href='/stylesheets/lib/ratchet.css')
-      link(rel='stylesheet', href='/stylesheets/mobile.css')
-    else
-      link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700', type='text/css')
-      link(rel='stylesheet', href='/stylesheets/lib/bootstrap.min.css')
-      link(rel='stylesheet', href='/stylesheets/lib/bootstrap-responsive.min.css')
-      link(rel='stylesheet', href='/stylesheets/desktop.css')
+    //- link(rel='stylesheet', href='/stylesheets/lib/ratchet.css')
+    //- link(rel='stylesheet', href='/stylesheets/mobile.css')
+    link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700', type='text/css')
+    link(rel='stylesheet', href='http://fonts.googleapis.com/css?family=Ubuntu:400,700&subset=latin,cyrillic', type='text/css')
+
+    //- link(rel='stylesheet', href='/stylesheets/lib/bootstrap.min.css')
+    //- link(rel='stylesheet', href='/stylesheets/lib/bootstrap-responsive.min.css')
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    //- link(rel='stylesheet', href='/stylesheets/desktop.css')
 
     link(rel='stylesheet', href='/stylesheets/lib/font-awesome.css')
 
@@ -28,100 +29,39 @@ html
     include templates/songs
 
   body
-    if locals.mobile
-      header.bar-title
-        h1.title
-          span#host
-          | /#{session}
+    img#code(src='', style='display:none !important;')
 
-      .content
-        if (locals.player)
-          #player
+    #popup.modal.hide
+      
 
-        ul.list#playing
-          li#now-playing
-            h2 
-              i#paused-icon.icon-pause 
-              span#playing-title  No Music Playing
-          li.list-divider
-            #progress
+    .container
 
-        .inset
-          input#search(type='search', placeholder='search')
-          a#clear-search(href='#')
-            i.icon-remove-sign
+      if (locals.player)
+        #player
 
-        ul.list#results
-        ul.list#queue
-          li.list-divider No songs in queue
-    else
-      .container
 
-        if (locals.player)
-          #player
+      #now-playing
+      input#search(type='text', placeholder='search')
 
-        .row
-          .span12
-            #header 
-              | join this party at  
-              strong
-                span#host
-                | /#{session}
+      ul#results     
+      ul#queue 
 
-        .row
-          .span8
-            .hero-unit
-              .inner#now-playing
-                h2 
-                  i#paused-icon.icon-pause 
-                  span#playing-title  No Music Playing
-              #progress
-            input#search(type='text', placeholder='search').input-block-level
-            ul#results
-            .row-fluid
-              .span4
-                img#code(src='')
-         
-          .span4
-            ul#queue
-              li.list-divider No songs in queue     
+      #join 
+        | join this party at  
+        strong
+          a(href="/#{session}")
+            span#host
+            | /#{session}
     
     block scripts
-
     script(src='/javascripts/lib/zepto.min.js')
     script(src='/javascripts/lib/handlebars.js')
     script(src='/javascripts/lib/lodash.min.js')
     script(src='/socket.io/socket.io.js')
 
-    if locals.mobile
-      script(src='/javascripts/lib/ratchet.js')
-    else 
-      script
-        $('#code').attr('src', 'https://chart.googleapis.com/chart?chs=500x500&cht=qr&chl=http://' + window.location.host + '/#{session}')
-
     script
-      var templates = {
-        songs   : Handlebars.compile($('#songs-template').html()),
-        playing : Handlebars.compile($('#playing-template').html()),
-        results : Handlebars.compile($('#results-template').html()),
-      }
-
-      Handlebars.registerHelper('JSON', function(object) {
-        return new Handlebars.SafeString(encodeURIComponent(JSON.stringify(object)));
-      });
-
-      var socket = io.connect('http://' + window.location.host + '/#{session}', {
-        port : #{websocket_port}
-      });
-
-      $('#host').text(window.location.host)
-
-    if mobile
-      script
-        var $hide_element = $('#queue')
-    else
-      script
-        var $hide_element = $('#code')
+      session_name   = '#{session}';
+      websocket_port = #{websocket_port};
 
     script(src='/javascripts/app.js')
     script(src='/javascripts/search.js')

@@ -1,6 +1,7 @@
 var keyTimer
   , $search   = $('#search')
   , $results  = $('#results').hide()
+  , $queue    = $('#queue')
 
 var search_providers = {
 
@@ -76,7 +77,7 @@ $search.on('keyup', function(event) {
 
 $('#clear-search')
 .tap(clear_search)
-.click(clear_search)
+.mousedown(clear_search)
 
 /**
  * [checkValue description]
@@ -98,17 +99,25 @@ function checkValue() {
  */
 function clear_search(event) {
   event.preventDefault();
-  event.stopPropagation();
+
   $results.hide()
   $hide_element.show()
   $search.val('');
   $search.focus()
 }
 
+function hideLoadingSong() {
+ $('#loading').remove()
+}
+
+function showLoadingSong() {
+  $queue.append($('<li style="text-align:center" id="loading">')
+    .html('<i class="icon-spinner icon-spin icon-2x"></i> Looking for song...'))
+}
+
 function apply_actions() {
-  $('.action').click(function(event) {
+  function executeAction(event) {
     event.preventDefault();
-    event.stopPropagation();
 
     var href   = $(this).attr('href').slice(1).split('/')
       , action = href.shift()
@@ -119,5 +128,16 @@ function apply_actions() {
     $search.val('');
       
     socket.emit(action, data)
-  })
+  }
+
+
+  $('.action')
+  .tap(executeAction)
+  .mousedown(executeAction);
+
+  $('.action[href^="#add"]')
+  .tap(showLoadingSong)
+  .mousedown(showLoadingSong);
+
+
 }

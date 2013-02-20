@@ -1,16 +1,19 @@
 {
-  "name": "juke",
-  "version": "0.0.0",
-  "description": "Collaborative party playlist.",
+  "name": "tunetuna",
+  "version": "0.0.1",
+  "description": "Collaborative party playlist",
   "main": "app.js",
   "scripts": {
-    "test": "vows test/*"
+    "test": "mocha test/*"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/lxe/juke.git"
+    "url": "git://github.com/lxe/tunetuna.git"
   },
-  "author": "Aleksey Smolenchuk",
+  "author": {
+    "name" : "Aleksey Smolenchuk",
+    "email" : "lxe@lxe.co"
+  }, 
   "license": "BSD",
   "readmeFilename": "README.md",
   "gitHead": "3b3baa96708dada8fa9ded506e0de5e257d754f2",
