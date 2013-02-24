@@ -1,13 +1,15 @@
 script#songs-template(type='text/x-handlebars-template')
+
   {{#each .}}
   li.clearfix
-    .group
-      a.action.btn.btn-failure.button-negative(href='#down/{{id}}')
-        i.icon-thumbs-down  
-      | &nbsp;
-      a.action.btn.btn-success.button-positive(href='#up/{{id}}')
-        i.icon-thumbs-up   
-    .song-info.clearfix
-      h3 {{title}}
-      em {{artist}}
+    .song-info
+      h3 
+        .group
+          a.action.btn.btn-failure.button-negative(href='#down/{{id}}')
+            i.icon-thumbs-down  
+          | &nbsp;
+          a.action.btn.btn-success.button-positive(href='#up/{{id}}')
+            i.icon-thumbs-up   
+        | {{title}}
+        em {{artist}}
   {{/each}}

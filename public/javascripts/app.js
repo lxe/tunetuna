@@ -1,6 +1,7 @@
 var $queue        = $('#queue')
   , $song_playing = $('#now-playing')
   , $progress     = $('#progress')
+  , $join         = $('#join')
   , $hide_element = $queue
   , progress_timer
   , seconds_played
@@ -86,6 +87,16 @@ socket.on('songs', function (songs) {
 
 socket.on('error', function(err) {
   if (/array/i.test(Object.prototype.toString.call(err))) err = err.pop();
-  alert(err.message);
+  alert(err.message || 'Something went wrong. Continue to fix this.');
   $('#loading').remove();
+  if (!err.message)
+    location.href = location.href;
+});
+
+$(window).on('load', function() {
+  // Set a timeout...
+  setTimeout(function(){
+    // Hide the address bar!
+    window.scrollTo(0, 1);
+  }, 0);
 });

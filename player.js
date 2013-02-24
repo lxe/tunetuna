@@ -17,7 +17,7 @@ Array.prototype.move = function (old_index, new_index) {
   return this; // for testing purposes
 };
 
-var bad_words = _.map(['cover', 'live', 'parody', 'remix', 'rmx'], function(w) {
+var bad_words = _.map(['cover', 'live', 'parody', 'remix', 'rmx', 'lyrics'], function(w) {
   return new RegExp(w, 'i')
 });
   

@@ -34,24 +34,25 @@ html
     #popup.modal.hide
       
 
-    .container
+    #container
+      #content
 
-      if (locals.player)
-        #player
+        if (locals.player)
+          #player
 
+        #playing-wrapper
+          #now-playing
+        input#search(type='text', placeholder='search')
 
-      #now-playing
-      input#search(type='text', placeholder='search')
+        ul#results     
+        ul#queue 
 
-      ul#results     
-      ul#queue 
-
-      #join 
-        | join this party at  
-        strong
-          a(href="/#{session}")
-            span#host
-            | /#{session}
+    #join
+      | join this party at  
+      strong
+        a(href="/#{session}")
+          span#host
+          | /#{session}
     
     block scripts
     script(src='/javascripts/lib/zepto.min.js')
