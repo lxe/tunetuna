@@ -3,6 +3,10 @@
   "version": "0.0.0",
   "description": "tuna",
   "main": "app.js",
+  "keywords": [
+    "tuna"
+  ],
+  "license": "BSD",
   "scripts": {
     "test": "mocha test/suite"
   },
@@ -10,17 +14,22 @@
     "type": "git",
     "url": "git@github.com:lxe/tunetuna.git"
   },
-  "keywords": [
-    "tuna"
-  ],
-  "author": "Aleksey Smolenchuk",
-  "license": "BSD",
+  "author": {
+    "email": "lxe@lxe.co",
+    "name": "Aleksey Smolenchuk"
+  },
   "dependencies": {
     "bootstrap-stylus": "~0.2.1",
     "coffee-script": "~1.5.0",
     "stylus": "~0.32.1",
     "express": "~3.1.0",
     "connect-assets": "~2.4.0",
-    "socket.io": "~0.9.13"
+    "socket.io": "~0.9.13",
+    "mongoose": "~3.5.7",
+    "lodash": "~1.0.1",
+    "jade": "~0.28.1"
+  },
+  "devDependencies": {
+    "coffee-trace": "~1.3.4"
   }
 }
