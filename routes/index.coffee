@@ -1,5 +1,5 @@
-Session = require '../models/session'
+Party = require '../models/party'
 
 module.exports = (app) ->
   app.get ['/:name?', '/:name/player'], 
-  	Session.join, (req, res, next) -> res.render('index')
+    Party.join, (req, res, next) -> res.render 'index'
