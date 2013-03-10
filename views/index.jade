@@ -1,7 +1,9 @@
 extends layout
 
 block content
-	.hero-unit
-		pre #{JSON.stringify(locals.party, false, ' ')}
-		h1 Hello
-		h2 Testing
+  .container
+    .hero-unit
+      h1 Enter Code to Join Party:
+    .row
+      .span12
+        input.input-block-level

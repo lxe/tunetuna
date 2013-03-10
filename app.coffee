@@ -1,6 +1,7 @@
 # ☕ tuna by @lxe
 
 # express
+socket   = require 'socket.io'
 express  = require 'express'
 app      = express()
 app.port = process.env.PORT or 3000
@@ -38,6 +39,7 @@ app.use stylus.middleware(
 )
 
 app.use (req, res, next) ->
+  req.io = app.io # pass socket to routes
   req.flash = { } if not req.flash
   res.locals.flash = req.flash
   req.flash = { }
@@ -58,6 +60,6 @@ app.configure "production", ->
   app.use express.errorHandler()
 
 # go go go!
-app.listen(app.port)
-console.log "✔ Running tuna on :#{app.port} 
-  in #{app.settings.env} mode"
+server = app.listen app.port
+app.io = socket.listen server
+console.log "✔ Running tuna on port #{app.port} in #{app.settings.env} mode"
